@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <ListPreference
+        android:defaultValue="Kilometere"
+        android:entries="@array/pref_radius_unit_labels"
+        android:entryValues="@array/pref_radius_unit_labels"
+        android:key="radius_unit"
+        android:title="Radius Unit" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="traffic"
+        android:summaryOff="Hidden"
+        android:summaryOn="Shown"
+        android:title="Show Traffic" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="show_satellite_view"
+        android:summaryOff="Hidden"
+        android:summaryOn="Shown"
+        android:title="Satellite View" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="vibration"
+        android:summaryOff="Hidden"
+        android:summaryOn="Shown"
+        android:title="Vibration" />
+
+
+</PreferenceScreen>
