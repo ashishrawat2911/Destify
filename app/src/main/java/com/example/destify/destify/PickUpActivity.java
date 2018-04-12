@@ -840,3 +840,4 @@ public class PickUpActivity extends AppCompatActivity
         return (netInfo != null && netInfo.isConnected());
     }
 }
+//end
