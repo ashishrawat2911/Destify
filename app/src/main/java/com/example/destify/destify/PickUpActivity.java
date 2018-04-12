@@ -1,5 +1,4 @@
 package com.example.destify.destify;
-//F19470
 
 import android.Manifest;
 import android.app.NotificationManager;
