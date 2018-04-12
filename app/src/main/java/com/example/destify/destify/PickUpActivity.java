@@ -143,7 +143,7 @@ public class PickUpActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         walkingModeImage = findViewById(R.id.walking_mode);
         drivingModeImage = findViewById(R.id.driving_mode);
-        bar = Snackbar.make(findViewById(R.id.constlayoyut), "Somthing", Snackbar.LENGTH_LONG);
+        bar = Snackbar.make(findViewById(R.id.constlayoyut), "Loading", 1000);
         modeLayout = findViewById(R.id.modelayout);
         displayLocationSettingsRequest(PickUpActivity.this);
         //     mLocationRequest = new LocationRequest();
@@ -169,6 +169,7 @@ public class PickUpActivity extends AppCompatActivity
         intentFilter.addAction(LocationManager.PROVIDERS_CHANGED_ACTION);
 
     }
+
 
     private void updatePrograssBar() {
     }
@@ -708,7 +709,7 @@ public class PickUpActivity extends AppCompatActivity
         }
     }
 
-    @Override
+ /*   @Override
     protected void onResume() {
         super.onResume();
         if (!isLocationOnline(PickUpActivity.this)) {
@@ -733,7 +734,7 @@ public class PickUpActivity extends AppCompatActivity
         super.onPause();
         unregisterReceiver(myBroadcastReceiver);
     }
-
+*/
     /**
      * A class to parse the Google Places in JSON format
      */
@@ -833,6 +834,7 @@ public class PickUpActivity extends AppCompatActivity
     public boolean isOnline(Context context) {
 
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         //should check null because in airplane mode it will be null
         return (netInfo != null && netInfo.isConnected());
