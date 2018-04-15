@@ -10,84 +10,6 @@
     tools:context="com.example.destify.destify.PickUpActivity"
     tools:showIn="@layout/app_bar_pick_up">
 
-    <RelativeLayout
-        android:id="@+id/enable_location"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#F19470"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="12dp"
-            android:layout_toEndOf="@+id/imageView3"
-            android:text="Enable Location Services"
-            android:textColor="#ffff" />
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignBottom="@+id/textView2"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="13dp"
-            android:src="@drawable/ic_location_error" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView2"
-            android:layout_alignBottom="@+id/textView2"
-            android:layout_alignEnd="@+id/imageView2"
-            android:layout_marginEnd="18dp"
-            android:text="Enable"
-            android:textColor="#ffff" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_enable_arrow" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/enable_network"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#67e1b2"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="80dp"
-            android:text="Enable Network Services"
-            android:textColor="#ffff"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignBottom="@+id/textView8"
-            android:layout_marginEnd="13dp"
-            android:layout_toStartOf="@+id/textView8"
-            android:src="@drawable/ic_location_error" />
-
-
-    </RelativeLayout>
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -220,15 +142,7 @@
             app:layout_constraintTop_toBottomOf="@+id/map"
             app:layout_constraintVertical_bias="0.897">
 
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="30dp"
-                android:layout_weight="1"
-                android:background="@drawable/white_border3"
-                android:text="Start" />
+
 
             <Button
 

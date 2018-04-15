@@ -125,7 +125,6 @@ public class PickUpActivity extends AppCompatActivity
     private static final String KEY_LOCATION = "location";
     private BroadcastReceiver broadcastReceiver;
     boolean move = false;
-    MyBroadcastReceiver myBroadcastReceiver;
     IntentFilter intentFilter;
 
     @Override
@@ -144,7 +143,6 @@ public class PickUpActivity extends AppCompatActivity
         drivingModeImage = findViewById(R.id.driving_mode);
         bar = Snackbar.make(findViewById(R.id.constlayoyut), "Loading", 1000);
         modeLayout = findViewById(R.id.modelayout);
-        displayLocationSettingsRequest(PickUpActivity.this);
         //     mLocationRequest = new LocationRequest();
         getLocationPermission();
         lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -158,40 +156,11 @@ public class PickUpActivity extends AppCompatActivity
                 .build();
 
         init();
-        enableLLayout = findViewById(R.id.enable_location);
-        enableNlayout = findViewById(R.id.enable_network);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        intentFilter = new IntentFilter();
-        myBroadcastReceiver = new MyBroadcastReceiver();
-        intentFilter.addAction(ConnectivityManager.EXTRA_OTHER_NETWORK_INFO);
-        intentFilter.addAction(LocationManager.PROVIDERS_CHANGED_ACTION);
-
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
-
-    private void updatePrograssBar() {
-    }
-
-
-    public void notificationBuilder(View view) {
-        Intent intent = new Intent(this, PickUpActivity.class);
-        intent.putExtra("not1", "");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "1")
-                .setSmallIcon(R.drawable.ic_track_location)
-                .setContentTitle("Tracking Location")
-                .setContentText("Here you go")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT).setContentIntent(pendingIntent);
-
-
-        // notificationId is a unique int for each notification that you must define
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        assert manager != null;
-        manager.notify(0, mBuilder.build());
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -259,7 +228,6 @@ public class PickUpActivity extends AppCompatActivity
         myLocationPointer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayLocationSettingsRequest(PickUpActivity.this);
                 getDeviceAccessLocation();
                 hideKeyBoard();
                 modeLayout.setVisibility(View.INVISIBLE);
@@ -304,7 +272,6 @@ public class PickUpActivity extends AppCompatActivity
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
                 if (mLocationPermissionGranted) {
-                    displayLocationSettingsRequest(PickUpActivity.this);
                     getDeviceAccessLocation();
                     if (ActivityCompat.checkSelfPermission(PickUpActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                             ActivityCompat.checkSelfPermission(PickUpActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -364,8 +331,7 @@ public class PickUpActivity extends AppCompatActivity
                             Log.d(TAG, "onComplete: didnt find out location");
                     }
                 });
-            } else
-                displayLocationSettingsRequest(PickUpActivity.this);
+            }
         } catch (Exception e) {
             Log.e(TAG, "Security exception");
         }
@@ -391,50 +357,6 @@ public class PickUpActivity extends AppCompatActivity
         }
 
 
-    }
-
-    protected void createLocationRequest() {
-
-
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-    public void createLocationSettings() {
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest);
-        SettingsClient client = LocationServices.getSettingsClient(this);
-        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
-        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
-            @Override
-            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                // All location settings are satisfied. The client can initialize
-                // location requests here.
-                // ...
-            }
-        });
-    }
-
-    private void displayLocationSettingsRequest(Context context) {
-
-        try {
-            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch (Exception ex) {
-        }
-        if (!gps_enabled) {
-            GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
-                    .addApi(LocationServices.API).build();
-            googleApiClient.connect();
-
-            LocationRequest locationRequest = LocationRequest.create();
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            locationRequest.setInterval(10000);
-            locationRequest.setFastestInterval(10000 / 2);
-
-            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-            builder.setAlwaysShow(true);
-        }
     }
 
     private void getLocationPermission() {
@@ -708,32 +630,6 @@ public class PickUpActivity extends AppCompatActivity
         }
     }
 
- /*   @Override
-    protected void onResume() {
-        super.onResume();
-        if (!isLocationOnline(PickUpActivity.this)) {
-            enableLLayout.setVisibility(View.VISIBLE);
-        } else enableLLayout.setVisibility(View.INVISIBLE);
-        if (!isOnline(PickUpActivity.this)) {
-            enableNlayout.setVisibility(View.VISIBLE);
-        } else enableNlayout.setVisibility(View.INVISIBLE);
-
-        registerReceiver(myBroadcastReceiver, intentFilter);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        registerReceiver(myBroadcastReceiver, intentFilter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(myBroadcastReceiver);
-    }
-*/
     /**
      * A class to parse the Google Places in JSON format
      */
@@ -812,31 +708,4 @@ public class PickUpActivity extends AppCompatActivity
     }
 
 
-    public class MyBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!isLocationOnline(PickUpActivity.this)) {
-                enableLLayout.setVisibility(View.VISIBLE);
-            }
-            if (!isOnline(PickUpActivity.this)) {
-                enableNlayout.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    public boolean isLocationOnline(Context context) {
-
-        gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        return gps_enabled;
-    }
-
-    public boolean isOnline(Context context) {
-
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert cm != null;
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        //should check null because in airplane mode it will be null
-        return (netInfo != null && netInfo.isConnected());
-    }
 }
-//end
